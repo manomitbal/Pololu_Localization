@@ -1,0 +1,21 @@
+1. Set GPIO
+
+echo 28 > /sys/class/gpio/export  
+echo 27 > /sys/class/gpio/export 
+
+echo mode1 > /sys/kernel/debug/gpio_debug/gpio28/current_pinmux  
+echo mode1 > /sys/kernel/debug/gpio_debug/gpio27/current_pinmux 
+
+2. Install i2ctools
+
+3. i2cdetect -y -r 6(bus)
+NDOF - 0x1C, AMG - 0x17
+4. i2cset -y 6(bus) 0x28(device register) 0x3D(op mode register) NDOF/AMG 
+5. i2cget -y 6(bus) 0x28(device register) 0x15(gyr x)
+
+6. For mraa to compile add -lmraa to compile statement as a flag
+  g++ -o imuData imuData.cpp -lmraa
+7. Edit /etc/ld.so.conf and add /usr/local/lib/i386-linux-gnu/ to the file
+   Then, ldconfig, ldconfig -p | grep mraa to check
+8. Go to MRAA library, build and cmake.., make, make install
+
